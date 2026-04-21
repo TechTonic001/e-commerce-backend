@@ -9,7 +9,6 @@ const userRoutes = require("./routes/userRoutes.js")
 const orderRoutes = require("./routes/orderRoutes.js")
 const contactRoutes = require("./routes/contactRoutes.js")
 const chatRoutes = require("./routes/chatRoutes.js")
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const corsOptions = {
     origin: [
@@ -35,7 +34,6 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 5300;
 const uri = process.env.URI;
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 mongoose.connect(uri)
     .then(() => {
         console.log('Connected to MongoDB');

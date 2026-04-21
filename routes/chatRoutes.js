@@ -5,8 +5,19 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 dotenv.config();
 const router = express.Router();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+// Lazy-load model to prevent crash if GEMINI_API_KEY is missing
+let model = null;
+
+const getModel = () => {
+    if (!process.env.GEMINI_API_KEY) {
+        throw new Error("GEMINI_API_KEY environment variable is not set");
+    }
+    if (!model) {
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+    }
+    return model;
+};
 
 router.post("/", async (req, res) => {
     try {
@@ -16,6 +27,7 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ error: "Message is required" });
         }
 
+        const model = getModel();
         const result = await model.generateContent(message);
         const botReply = result.response.text();
 
