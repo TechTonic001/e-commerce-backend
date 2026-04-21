@@ -13,9 +13,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const corsOptions = {
     origin: [
-        'http://localhost:5174', 
-        'https://luxemart-eta.vercel.app', 
-        'https://luxemart.preciousenoch459.workers.dev', 
+        'https://e-commerce-frontend-ten-ashen.vercel.app/',
         'http://localhost:5173'
     ],
     credentials: true,
